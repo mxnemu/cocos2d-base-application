@@ -5,6 +5,6 @@ providing:
 -scene
 -fixed update loop
 -physic / graphic synchronization
+-modified cocos2d for simple resource preloading;
 -svg parsing utils
 -some other utils and cool stuff
-
