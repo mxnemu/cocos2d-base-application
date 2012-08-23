@@ -1,7 +1,10 @@
 Html5 game base-application code
+I use this to create new games with cocos2d-javascript;
 
 providing:
 -scene
 -fixed update loop
--
+-physic / graphic synchronization
+-svg parsing utils
+-some other utils and cool stuff
 
