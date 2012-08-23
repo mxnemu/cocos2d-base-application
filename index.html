@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Pinball</title>
+        
+        <!-- Libraries -->
+        <script src="lib/jquery-1.7.2.min.js" defer></script>
+        <script src="lib/cocos2d-beta2.js"></script>
+        <script src="lib/box2d.js" defer></script>
+        
+        <!-- Ui -->
+        <script src="src/Utils.js" defer></script>
+        
+        <!-- Game -->
+        <script src="src/Input.js" defer></script>
+        <script src="src/PhysicsNode.js" defer></script>
+        <script src="src/Application.js" defer></script>
+        
+        <style>
+            body, html {
+                height:100%;
+                width:100%;
+                margin:0;
+                padding:0;
+            }
+        
+            .debugcanvas {
+                position:absolute;
+                top:0;
+                left:0;
+                pointer-events: none; /* forward clicks to lower elements */
+            }
+        </style>
+    </head>
+
+    <body onload="runDemo()">
+        <!--<img src="img/header.png" style="display:block"/> -->
+        <div id="cocos2d-demo" style="width: 800px; height: 480px;">
+            <canvas id="debug-canvas" style="vertical-align: bottom;" width="400" height="563"></canvas>
+        </div>
+        
+        <div class="instructions">
+        </div>
+        
+    </body>
+</html>
