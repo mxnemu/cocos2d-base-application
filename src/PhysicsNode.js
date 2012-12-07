@@ -28,8 +28,12 @@ function PhysicsNode() {
 PhysicsNode.physicsScale = 30;
 
 PhysicsNode.inherit(cc.Node, {
-    destroyed: false,    
-    destroyOnFreeze: true,
+    destroyed: false,
+    // freeze happens when it leaves the screen
+    // currently it's not implemented. 
+    // For a workaround you must create a sensor of the size of the screen and
+    // check for collisonEnd with any object and set destroyed to true.
+    destroyOnFreeze: true, 
     
     update: function() {
         this.synchronizePosition();
@@ -39,13 +43,7 @@ PhysicsNode.inherit(cc.Node, {
         if (this.parent) {
             this.parent.removeChild(this);
         }
-        /*
-        var fixture = this.body.GetFixtureList()
-        while(fixture) {
-            this.body.m_world.DestroyFixture(fixture);
-            fixture = fixture.GetNext();
-        }
-        */
+
         if (this.body && this.body.m_world) {
             this.body.m_world.DestroyBody(this.body);
         }
@@ -125,7 +123,7 @@ PhysicsNode.inherit(cc.Node, {
     },
     
     /*
-     * Synchronize the Node's position with the position of the physics body
+     * Synchronize the cc.Node's position with the position of the physics body
      */
     synchronizePosition: function() {
         this.position.x = this.body.GetPosition().x * PhysicsNode.physicsScale;

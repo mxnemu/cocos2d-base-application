@@ -57,6 +57,7 @@ Application.inherit(cc.Layer, {
     frameSecondTimer: 0,
     frameUpdateCounter: 0,
     
+    // store inputs for realtime requests
     keyDown: function(event) {
         Input.instance.keysDown[event.keyCode] = true;
     },
@@ -65,7 +66,7 @@ Application.inherit(cc.Layer, {
         Input.instance.keysDown[event.keyCode] = false;
     },
 
-    // Example setup
+    // Example setup replace it with your own
     createExampleGame: function() {
         var box = new PhysicsNode();
         box.type = "box"; // used in CollisionHandler
@@ -168,7 +169,8 @@ Application.inherit(cc.Layer, {
     }
 })
 
-function runDemo () {
+// this function is executed when the body is loaded
+$(function() {
 
     var director = cc.Director.sharedDirector
     director.backgroundColor = "rgb(200,200,200)"
@@ -206,4 +208,4 @@ function runDemo () {
         director.replaceScene(scene)
     });
     director.runPreloadScene();
-}
+});

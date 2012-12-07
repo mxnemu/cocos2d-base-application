@@ -31,13 +31,18 @@
                 left:0;
                 pointer-events: none; /* forward clicks to lower elements */
             }
+            
+            #cocos2d-demo {
+                position:relative;
+                width: 800px; 
+                height: 480px;
+            }
         </style>
     </head>
 
-    <body onload="runDemo()">
+    <body>
         <!--<img src="img/header.png" style="display:block"/> -->
-        <div id="cocos2d-demo" style="width: 800px; height: 480px;">
-            <canvas id="debug-canvas" style="vertical-align: bottom;" width="400" height="563"></canvas>
+        <div id="cocos2d-demo">
         </div>
         
         <div class="instructions">
