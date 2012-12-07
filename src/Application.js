@@ -37,7 +37,7 @@ function Application () {
     debugCanvas.height = $(debugCanvas).parent().height();
     
     this.world = new b2World(new b2Vec2(0, -10), true);
-    //this.world.SetContactListener(new ContactListener());
+    this.world.SetContactListener(new CollisionHandler());
     
     //setup debug draw
     var debugDraw = new b2DebugDraw()
@@ -65,15 +65,17 @@ Application.inherit(cc.Layer, {
         Input.instance.keysDown[event.keyCode] = false;
     },
 
-
+    // Example setup
     createExampleGame: function() {
         var box = new PhysicsNode();
+        box.type = "box"; // used in CollisionHandler
         box.position = new cc.Point(400, 400);
         box.rotation = 25;
         box.createPhysics(this.world, {boundingBox: new cc.Size(50, 50)});
         this.addChild(box);
         
         var ground = new PhysicsNode();
+        ground.type = "ground";
         ground.position = new cc.Point(400, 200);
         ground.createPhysics(this.world, {boundingBox: new cc.Size(400, 10)});
         
@@ -82,6 +84,12 @@ Application.inherit(cc.Layer, {
         jointDef.MaximalForce = 4000;
         
         ground.joint = this.world.CreateJoint(jointDef);
+        
+        // set image. It must be listed in the preloader before.
+        ground.addChild(new cc.Sprite({
+            file: "images/ground.png"
+        }));
+        this.addChild(ground);
         
         // called in update loop
         ground.update = function() {
@@ -98,6 +106,7 @@ Application.inherit(cc.Layer, {
         $(".instructions").append("use left / right arrow keys to rotate the ground");
     },
     
+    // Here's the application's mainloop    
     update: function(dt) {
         
         if (this.paused) {
@@ -120,13 +129,15 @@ Application.inherit(cc.Layer, {
             this.frameUpdateCounter++;
         }
         
+        /*
         if (this.frameSecondTimer >= 1.0) {
-            //console.log("updates per second: " + this.frameUpdateCounter);
+            console.log("updates per second: " + this.frameUpdateCounter);
             this.frameUpdateCounter = 0;
             this.frameSecondTimer -= 1.0;
         }
+        */
         
-       this.world.DrawDebugData();
+        this.world.DrawDebugData();
     },
     
     fixedUpdate: function(dt) {
@@ -179,7 +190,7 @@ function runDemo () {
     
     // here you can add a block of resources
     // they will be loaded with the loadingscreen before your game starts
-    //registerResource("../img/background.png", "image/png");
+    registerResource("images/ground.png", "image/png");
     
     // Wait for the director to finish preloading our assets
     cc.addListener(director, 'ready', function (director) {
@@ -192,7 +203,6 @@ function runDemo () {
         app.createExampleGame();
         app.scheduleUpdate();
 
-        // Display the scene
         director.replaceScene(scene)
     });
     director.runPreloadScene();
