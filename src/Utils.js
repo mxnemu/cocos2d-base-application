@@ -23,8 +23,7 @@
 
 function Utils() {}
 
-Utils.shuffleArray = function(array)
-{
+Utils.shuffleArray = function(array) {
   var tmp, rand;
   for(var i = 0; i < array.length; i++)
   {
