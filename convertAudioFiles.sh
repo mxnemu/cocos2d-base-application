@@ -2,6 +2,8 @@
 cd "$(dirname "$0")"
 
 # You need ffmpeg avconv to run this script
+# put your files with lowercase ".ogg" extension into the audio directory
+# the script will store converted .aac and .wav versions in audio/conversions/
 
 mkdir ./audio/conversions > /dev/null 2>&1
 for A in ./audio/*.ogg
