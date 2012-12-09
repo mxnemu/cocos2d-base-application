@@ -193,7 +193,9 @@ $(function() {
     // here you can add a block of resources
     // they will be loaded with the loadingscreen before your game starts
     registerResource("images/ground.png", "image/png");
-    Audiomanager.instance.load("audio/blub");
+
+    // TODO integrate audio loading into the preloader
+    Audiomanager.instance.load({"ogg": "audio/blub.ogg", "aac":"audio/conversions/blub.aac"}, "audio/blub");
     
     // Wait for the director to finish preloading our assets
     cc.addListener(director, 'ready', function (director) {

@@ -1,11 +1,22 @@
 function Audiomanager() {
-    var canPlayOggString = (new Audio()).canPlayType("audio/ogg");
-    var canPlayAacString = (new Audio()).canPlayType("audio/aac");
-    var canPlayWavString = (new Audio()).canPlayType("audio/wav");
+    var testMimes = {
+        "ogg": "audio/ogg",
+        "aac": "audio/aac",
+        "wav": "audio/aac",
+        "mp3": "audio/mpeg"
+    };
+    this.supportedCodes = {};
     
-    this.canPlayOgg = canPlayOggString && canPlayOggString.length != 0 && !canPlayOggString.match(/no/i) ? true : false;
-    this.canPlayAac = canPlayAacString && canPlayAacString.length != 0 && !canPlayAacString.match(/no/i) ? true : false;
-    this.canPlayWav = canPlayWavString && canPlayWavString.length != 0 && !canPlayWavString.match(/no/i) ? true : false;
+    for (var format in testMimes) {
+        var result = (new Audio()).canPlayType(testMimes[format]);
+        this.supportedCodes[format] = result && result.length != 0 && !result.match(/no/i) ? true : false;
+
+        if (this.supportedCodes[format]) {
+            console.log(format + " supported");
+        } else {
+            console.log(format + " not supported");
+        }
+    }
 }
 
 Audiomanager.inherit(Object, {
@@ -15,33 +26,27 @@ Audiomanager.inherit(Object, {
         this.audios[alias].play();
     },
     
-    // provide url without the .ogg/.wav/.aac extension.
-    // example: "audio/mySound" will look for 
-    // "audio/mySound.ogg", "audio/mySound.wav" and "audio/mySound.aac"
-    // make sure the extension is typed in lower case
-    load: function(urlWithoutExtension) {
-        if (this.canPlayOgg && this.fileExists(urlWithoutExtension + ".ogg")) {
-            this.audios[urlWithoutExtension] = new Audio(urlWithoutExtension + ".ogg");
-        } else if (this.canPlayAac && this.fileExists(urlWithoutExtension + ".aac")) {
-            this.audios[urlWithoutExtension] = new Audio(urlWithoutExtension + ".aac");
-        } else if (this.canPlayWav && this.fileExists(urlWithoutExtension + ".wav")) {
-            this.audios[urlWithoutExtension] = new Audio(urlWithoutExtension + ".wav");
-        } else {
-            console.warn("could not load audio file. Maybe the extension is not lowercase .ogg/.aac/.wav");
-            this.audios[urlWithoutExtension] = {play:function(){}};
+    // provide urls like this: {"ogg": "audio/sound.ogg", "wav": "audio/conversions/sound.ogg"}
+    // alias is the string under which will be able to access your sound later
+    // example:
+    //   Audiomanager.instance.load({"ogg": "audio/sound.ogg", "wav": "audio/conversions/sound.ogg"}, "sound")
+    //   Audiomanager.instance.play("sound");
+    load: function(urls, alias) {
+    
+        for (var format in urls) {
+            if (this.supportedCodes[format]) {
+                this.audios[alias] = new Audio(urls[format]);
+                this.audios[alias].load();
+                console.log("loaded " + alias + " as " + format);
+                break;
+            }
+        }
+        
+        if (!this.audios[alias]) {
+            console.warn("could not load a supported audio file for the sound " + alias);
+            this.audios[alias] = {play:function(){}}; // insert failsave object
             return;
         }
-        this.audios[urlWithoutExtension].load();
-    },
-    
-    fileExists: function(url) {
-        /*
-        var http = new XMLHttpRequest();
-        http.open('HEAD', url, false);
-        http.send();
-        return http.status!=404;
-        */
-        return true;
     }
 });
 
