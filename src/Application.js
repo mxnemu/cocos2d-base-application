@@ -182,18 +182,19 @@ $(function() {
         e.preventDefault();
     });
     
-    // I modified lib/cocos2d-beta2.js to make this work!
-    // this function does not work with the official release
+    // I modified lib/cocos2d-beta2.js to make this work
+    // this function does not work with the official release!
     function registerResource(path, mimetype, alias) {
         alias = alias || path;
         cc.jah.resources[alias] = {data: path, mimetype: mimetype, remote:true};
         director.preloader().addToQueue(path);
     };
     
-    // here you can add a block of resources
+    // list your images here
     // they will be loaded with the loadingscreen before your game starts
     registerResource("images/ground.png", "image/png");
 
+    // preload audio files
     // TODO integrate audio loading into the preloader
     Audiomanager.instance.load({"ogg": "audio/blub.ogg", "aac":"audio/conversions/blub.aac"}, "audio/blub");
     
