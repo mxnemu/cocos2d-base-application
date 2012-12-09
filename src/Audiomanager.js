@@ -1,7 +1,11 @@
 function Audiomanager() {
-    this.canPlayOgg = (new Audio()).canPlayType("audio/ogg; codecs=vorbis");
-    this.canPlayAac = (new Audio()).canPlayType("audio/aac; codecs=aac");
-    this.canPlayWav = (new Audio()).canPlayType("audio/wav; codecs=wav");
+    var canPlayOggString = (new Audio()).canPlayType("audio/ogg");
+    var canPlayAacString = (new Audio()).canPlayType("audio/aac");
+    var canPlayWavString = (new Audio()).canPlayType("audio/wav");
+    
+    this.canPlayOgg = canPlayOggString && canPlayOggString.length != 0 && !canPlayOggString.match(/no/i) ? true : false;
+    this.canPlayAac = canPlayAacString && canPlayAacString.length != 0 && !canPlayAacString.match(/no/i) ? true : false;
+    this.canPlayWav = canPlayWavString && canPlayWavString.length != 0 && !canPlayWavString.match(/no/i) ? true : false;
 }
 
 Audiomanager.inherit(Object, {
@@ -24,7 +28,8 @@ Audiomanager.inherit(Object, {
             this.audios[urlWithoutExtension] = new Audio(urlWithoutExtension + ".wav");
         } else {
             console.warn("could not load audio file. Maybe the extension is not lowercase .ogg/.aac/.wav");
-            return;     
+            this.audios[urlWithoutExtension] = {play:function(){}};
+            return;
         }
         this.audios[urlWithoutExtension].load();
     },

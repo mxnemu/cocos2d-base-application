@@ -56,11 +56,11 @@ CollisionHandler.inherit(b2ContactListener, {
     // custom functions to handle the collision of 2 objects
     boxGroundCollision: function(box, ground) {
         console.log("The box touches the ground");  
-        Audiomanager.instance.play("audio/1up");
+        Audiomanager.instance.play("audio/blub");
     },
     
     boxGroundCollisionEnd: function(box, ground) {
         console.log("The box does no longer touch the ground");
-        Audiomanager.instance.play("audio/1up");
+        Audiomanager.instance.play("audio/blub");
     }
 });
