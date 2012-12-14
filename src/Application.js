@@ -202,10 +202,21 @@ $(function() {
     // list your images here
     // they will be loaded with the loadingscreen before your game starts
     registerResource("images/ground.png", "image/png");
-
+    
+    
+    function registerAudio(name) {
+        Audiomanager.instance.load({ 
+            "ogg": "audio/"+name+".ogg",
+            "aac": "audio/conversions/"+name+".aac",
+            "wav": "audio/conversions/"+name+".wav",
+            
+        }, name); 
+    }
     // preload audio files
     // TODO integrate audio loading into the preloader
-    Audiomanager.instance.load({"ogg": "audio/blub.ogg", "aac":"audio/conversions/blub.aac"}, "audio/blub");
+    registerAudio("blub");
+    //registerAudio("music");
+    //Audiomanager.instance.playMusic("music");
     
     // Wait for the director to finish preloading our assets
     cc.addListener(director, 'ready', function (director) {

@@ -2,7 +2,7 @@ function Audiomanager() {
     var testMimes = {
         "ogg": "audio/ogg",
         "aac": "audio/aac",
-        "wav": "audio/aac",
+        "wav": "audio/wav",
         "mp3": "audio/mpeg"
     };
     this.supportedCodes = {};
@@ -26,6 +26,19 @@ Audiomanager.inherit(Object, {
         this.audios[alias].play();
     },
     
+    playMusic: function(alias) {
+        if (this.music) {
+            this.music.stop();
+        }
+        this.audios[alias].addEventListener('ended', function() {
+            this.currentTime = 0;
+            this.play();
+        }, false);
+        this.audios[alias].play();
+        this.music = this.audios[alias];
+        this.music.volume = 0.65;
+    },
+    
     // provide urls like this: {"ogg": "audio/sound.ogg", "wav": "audio/conversions/sound.ogg"}
     // alias is the string under which will be able to access your sound later
     // example:
@@ -38,13 +51,17 @@ Audiomanager.inherit(Object, {
                 this.audios[alias] = new Audio(urls[format]);
                 this.audios[alias].load();
                 console.log("loaded " + alias + " as " + format);
+                if (G.noSound) {
+                    this.audios[alias].volume = 0;
+                }
                 break;
             }
         }
         
         if (!this.audios[alias]) {
             console.warn("could not load a supported audio file for the sound " + alias);
-            this.audios[alias] = {play:function(){}}; // insert failsave object
+            // insert failsave object
+            this.audios[alias] = {play:function(){},stop:function(){},addEventListener:function(){}}; 
             return;
         }
     }
