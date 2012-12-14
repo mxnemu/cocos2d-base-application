@@ -39,6 +39,13 @@ function Application () {
     this.world = new b2World(new b2Vec2(0, -10), true);
     this.world.SetContactListener(new CollisionHandler());
     
+    /*
+    this.worldborder = new PhysicsNode();
+    this.worldborder.type = "worldborder";
+    this.worldborder.position = new cc.Point(s.width/2, s.height);
+    this.worldborder.createPhysics(this.world, {boundingBox: new cc.Size(s.width+100, s.height*2), isSensor:true, isStatic:true})
+    */
+    
     //setup debug draw
     var debugDraw = new b2DebugDraw()
         debugDraw.SetSprite(debugCanvas.getContext("2d"))
@@ -181,6 +188,8 @@ $(function() {
     $("canvas").bind("contextmenu", function(e) {
         e.preventDefault();
     });
+    
+    preventArrowKeyScrolling();
     
     // I modified lib/cocos2d-beta2.js to make this work
     // this function does not work with the official release!

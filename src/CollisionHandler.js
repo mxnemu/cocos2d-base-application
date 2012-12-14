@@ -50,6 +50,23 @@ CollisionHandler.inherit(b2ContactListener, {
             } else if(objectB.type == "box" && objectA.type == "ground") {
                 this.boxGroundCollisionEnd(objectB, objectA);      
             }
+            
+            // freeze
+            if (objectA.type == "worldborder") {
+                this.freeze(objectB);
+            } 
+            else if (objectB.type == "worldborder") {
+                this.freeze(objectA);
+            }
+        }
+    },
+    
+    freeze: function(object) {
+    if (object.onFreeze) {
+            object.onFreeze();
+        }
+        if (object.destroyOnFreeze) {
+            object.destroyed = true;
         }
     },
     

@@ -47,6 +47,32 @@ function randomBoolean() {
     return Math.random() > 0.5;
 }
 
+function randomInRange(minResult, maxResult) {
+    return minResult + (Math.random()*(maxResult-minResult))
+}
+
+function randomElementInArray(array) {
+    return array[Math.floor(randomInRange(0, array.length))];
+}
+
+// thanks to TheVillageIdiot @ stackoverflow.com
+// http://stackoverflow.com/questions/1056562/stupid-seo
+function preventArrowKeyScrolling() {
+
+    var ar=new Array(33,34,35,36,37,38,39,40);
+
+    $(document).keydown(function(e) {
+         var key = e.which;
+          //console.log(key);
+          //if(key==35 || key == 36 || key == 37 || key == 39)
+          if($.inArray(key,ar) > -1) {
+              e.preventDefault();
+              return false;
+          }
+          return true;
+    });
+}
+
 // ie8 does not supply a console object, when you don't open the dev tools
 if (!window.console) {
     window.console = {
